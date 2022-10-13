@@ -25,4 +25,8 @@ public class ReservationRepository {
     public Reservation save(Reservation reservation){
         return extencionesCrud.save(reservation);
     }
+
+    public void delete(Reservation reservation){
+        extencionesCrud.delete(reservation);
+    }
 }

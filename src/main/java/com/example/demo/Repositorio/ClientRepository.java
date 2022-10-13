@@ -3,6 +3,7 @@ package com.example.demo.Repositorio;
 import com.example.demo.Interface.ClientInterface;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.example.demo.Modelo.Client;
@@ -24,5 +25,9 @@ public class ClientRepository {
     public Client save(Client client){
         return extencionesCrud.save(client);
     }
+    public void delete(Client client){
+        extencionesCrud.delete(client);
+    }
+
 
 }
