@@ -3,6 +3,8 @@ package com.example.demo.Controlador;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.Modelo.Reservation;
 import com.example.demo.Servicio.ReservationService;
+import com.example.demo.Repositorio.CountClient;
+import com.example.demo.Servicio.Status;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/Reservation")
+@CrossOrigin(origins = "*")
 
 public class ReservationController {
     @Autowired
@@ -47,4 +50,21 @@ public class ReservationController {
     public boolean delete(@PathVariable("id") int reservationId){
         return reservationService.deleteReservation(reservationId);
     }
+
+    @GetMapping("/report-clients")
+    public List<CountClient> getReservationsReportClient(){
+        return reservationService.getTopClients();
+    }
+
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservation> getReservationsReportDates(@PathVariable("dateOne") String dateOne,@PathVariable("dateTwo") String dateTwo){
+        return reservationService.informePeriodoTiempoReservas(dateOne,dateTwo);
+    }
+
+    @GetMapping("/report-status")
+    public Status getReservationsStatusReport(){
+        return reservationService.getReservationStatusReport();
+    }
+
+
 }

@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.Modelo.Reservation;
 import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.text.ParseException;
+import com.example.demo.Repositorio.CountClient;
 
 @Service
 
@@ -58,8 +63,6 @@ public class ReservationService {
         }
     }
 
-
-
     public boolean deleteReservation(int id){
         Boolean d = getReservation(id).map(reservation -> {
             reservationRepository.delete(reservation);
@@ -67,5 +70,34 @@ public class ReservationService {
         }).orElse(false);
         return d;
     }
+
+    public Status getReservationStatusReport(){
+        List<Reservation> completed = reservationRepository.getReservationByStatus("completed");
+        List<Reservation> cancelled = reservationRepository.getReservationByStatus("cancelled");
+        return new Status(completed.size(),cancelled.size());
+    }
+
+    public List<Reservation> informePeriodoTiempoReservas(String datoA, String datoB){
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        Date a = new Date();
+        Date b = new Date();
+
+        try{
+            a = parser.parse(datoA);
+            b = parser.parse(datoB);
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+        if(a.before(b)){
+            return reservationRepository.informePeriodoTiempoReservas(a, b);
+        }else{
+            return new ArrayList<>();
+        }
+    }
+
+    public List<CountClient> getTopClients(){
+        return reservationRepository.getTopClient();
+    }
+
 
 }

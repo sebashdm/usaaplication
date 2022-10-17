@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/Message")
+@CrossOrigin(origins = "*")
 
 public class MessageController {
     @Autowired
